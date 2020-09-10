@@ -42,7 +42,7 @@ export default function ProfileComponent() {
       });
     }
     
-    getProfileInfo(`http://localhost:5000/users/find/${userurl}`);
+    getProfileInfo(`https://bookymcbookface.herokuapp.com/users/find/${userurl}`);
     //useEffect dependencies
   }, [userurl, accessToken, refreshInfo, deletedPosts, likes]);
 

@@ -18,7 +18,7 @@ const UserIndex = (props) => {
 
   useEffect(() => {
     const getAllUsers = async () => {
-      const response = await fetch("http://localhost:5000/users", {
+      const response = await fetch("https://bookymcbookface.herokuapp.com/users", {
         method: "GET",
         mode: "cors",
         credentials: "include",

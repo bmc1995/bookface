@@ -82,7 +82,7 @@ const EditProfileDialog = (props) => {
         <Button
           onClick={(e) => {
             handleSubmit(
-              "http://localhost:5000/upload/s3ImgUpload",
+              "https://bookymcbookface.herokuapp.com/upload/s3ImgUpload",
               selection,
               accessToken,
               {setRefresh: props.setRefreshInfo, refreshInfo: props.refreshInfo}

@@ -95,7 +95,7 @@ const CreateCommentDialog = (props) => {
           onSubmit={(data, { setSubmitting, resetForm }) => {
             setSubmitting(true);
             handleSubmit(
-              `http://localhost:5000/comments/${props.postId}`,
+              `https://bookymcbookface.herokuapp.com/comments/${props.postId}`,
               data
             );
             resetForm();

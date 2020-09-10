@@ -36,7 +36,7 @@ export default function DashboardComponent() {
         });
     }
 
-    getPosts(`http://localhost:5000/posts`);
+    getPosts(`https://bookymcbookface.herokuapp.com/`);
     //useEffect dependencies
   }, [accessToken, deletedPosts, likes, refreshInfo]);
 

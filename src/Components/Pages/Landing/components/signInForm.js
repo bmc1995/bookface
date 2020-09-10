@@ -96,7 +96,7 @@ const SignInForm = () => {
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          handleSubmit("http://localhost:4000/userauth/login", data);
+          handleSubmit("https://bookface-auth.herokuapp.com/userauth/login", data);
           resetForm();
           setSubmitting(false);
         }}

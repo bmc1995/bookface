@@ -20,7 +20,7 @@ const App = () => {
 
   useEffect(() => {
     async function checkLoggedIn() {
-      const response = await fetch("http://localhost:4000/userauth/curruser", {
+      const response = await fetch("https://bookface-auth.herokuapp.com/userauth/curruser", {
         method: "POST",
         mode: "cors",
         credentials: "include",

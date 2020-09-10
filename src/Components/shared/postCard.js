@@ -54,7 +54,7 @@ const PostCard = (props) => {
   const classes = useStyles();
 
   const handleDelete = async (postId) => {
-    const response = await fetch(`http://localhost:5000/posts/${postId}/${user._id}`, {
+    const response = await fetch(`https://bookymcbookface.herokuapp.com/posts/${postId}/${user._id}`, {
       method: "DELETE",
       mode: "cors",
       credentials: "include",
@@ -71,7 +71,7 @@ const PostCard = (props) => {
   };
 
   const handleLike = async (postId, userId) => {
-    const response = await fetch("http://localhost:5000/likes", {
+    const response = await fetch("https://bookymcbookface.herokuapp.com/likes", {
       method: "POST",
       mode: "cors",
       credentials: "include",

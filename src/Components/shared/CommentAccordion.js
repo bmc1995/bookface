@@ -48,7 +48,7 @@ export default function SimpleExpansionPanel(props) {
 
   useEffect(() => {
     const getComments = async (postId, token) => {
-      const response = await fetch(`http://localhost:5000/comments/${postId}`, {
+      const response = await fetch(`https://bookymcbookface.herokuapp.com/comments/${postId}`, {
         method: "GET",
         mode: "cors",
         credentials: "include",
@@ -67,7 +67,7 @@ export default function SimpleExpansionPanel(props) {
 
 
   const handleDelete = async (commentId) => {
-    const response = await fetch(`http://localhost:5000/comments/${props.postId}/${commentId}`, {
+    const response = await fetch(`https://bookymcbookface.herokuapp.com/comments/${props.postId}/${commentId}`, {
         method: "DELETE",
         mode: "cors",
         credentials: "include",

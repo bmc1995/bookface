@@ -7,7 +7,7 @@ const FriendButton = (props) => {
   const { accessToken } = useContext(AccessContext);
 
   const handleAddClick = async () => {
-    const response = await fetch("http://localhost:5000/users/sendFriendReq", {
+    const response = await fetch("https://bookymcbookface.herokuapp.com/users/sendFriendReq", {
       method: "POST",
       mode: "cors",
       credentials: "include",
@@ -31,7 +31,7 @@ const FriendButton = (props) => {
   };
 
   const handleAcceptClick = async () => {
-    const response = await fetch("http://localhost:5000/users/acceptFriendReq", {
+    const response = await fetch("https://bookymcbookface.herokuapp.com/users/acceptFriendReq", {
       method: "POST",
       mode: "cors",
       credentials: "include",
@@ -54,7 +54,7 @@ const FriendButton = (props) => {
   };
 
   const handleUnfriendClick = async () => {
-    const response = await fetch("http://localhost:5000/users/unfriend", {
+    const response = await fetch("https://bookymcbookface.herokuapp.com/users/unfriend", {
       method: "POST",
       mode: "cors",
       credentials: "include",

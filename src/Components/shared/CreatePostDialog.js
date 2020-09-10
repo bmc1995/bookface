@@ -86,7 +86,7 @@ const CreatePostDialog = (props) => {
           validationSchema={validationSchema}
           onSubmit={(data, { setSubmitting, resetForm }) => {
             setSubmitting(true);
-            handleSubmit("http://localhost:5000/posts/create", data);
+            handleSubmit("https://bookymcbookface.herokuapp.com/posts/create", data);
             resetForm();
             setSubmitting(false);
           }}
