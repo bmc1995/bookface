@@ -132,7 +132,7 @@ const SignInForm = () => {
           Sign Up!
         </Button>
       </p>
-      <Dialog fullWidth open={signUpOpen} onClose={handleDialogClose}>
+      <Dialog fullWidth open={signUpOpen} handleClose={handleDialogClose} onClose={handleDialogClose}>
           <SignUpForm />
       </Dialog>
     </Box>

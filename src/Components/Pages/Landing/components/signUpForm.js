@@ -33,23 +33,39 @@ const MyTextField = ({ placeholder, type, ...props }) => {
 const validationSchema = yup.object({
   firstName: yup.string().required().max(35),
   lastName: yup.string().required().max(35),
-  email: yup.string().required().email("Must be a valid E-mail"),
+  email: yup.string().required().email("Please enter a valid email"),
   password: yup
     .string()
     .required()
     .matches(
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/,
-      "Must be atleast 6 characters, as well as One uppercase, One lowercase, One number and One special case character"
+      /^[a-zA-Z_\-]{4,}$/m,
+      "Must be atleast 4 characters, One uppercase, One lowercase, all letters."
     ),
   passwordConfirm: yup
     .string()
     .required()
-    .test("passwords-match", "Passwords must match", function (value) {
+    .test("passwords-match", "Passwords don't match", function (value) {
       return this.parent.password === value;
     }),
 });
 
-const SignUpForm = () => {
+async function handleSubmit(url, data) {
+  const response = await fetch(url, {
+    method: "POST",
+    mode: "cors",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  response.json()
+  .then((data) => {
+    console.log(data)
+  })
+}
+
+const SignUpForm = (props) => {
   const classes = useStyles()
   return (
     <Box className={classes.signInContainer}>
@@ -64,8 +80,9 @@ const SignUpForm = () => {
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          console.log(data);
+          handleSubmit("https://bookface-auth.herokuapp.com/userauth/signup")
           setSubmitting(false);
+          props.handleClose()
           resetForm({});
         }}
       >
