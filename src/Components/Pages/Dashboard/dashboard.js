@@ -18,7 +18,7 @@ export default function DashboardComponent() {
     //define function
     async function getPosts(url) {
       const response = await fetch(url, {
-        method: "GET",
+        method: "POST",
         mode: "cors",
         credentials: "include",
         headers: {
