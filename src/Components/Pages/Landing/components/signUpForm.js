@@ -53,7 +53,7 @@ const validationSchema = yup.object({
   .trim()
   .lowercase()
   .test("no whitespace", "no whitespace", function (value) {
-    value.includes(" ") ? false : true;
+    return value.includes(" ") ? false : true;
   })
 });
 
