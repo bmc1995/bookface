@@ -38,8 +38,8 @@ const validationSchema = yup.object({
     .string()
     .required()
     .matches(
-      /^[a-zA-Z_\-]{4,}$/m,
-      "Must be atleast 4 characters, One uppercase, One lowercase, all letters."
+      /^[a-zA-Z0-9_\-]{4,}$/m,
+      "Must be atleast 4 characters, alphanumeric."
     ),
   passwordConfirm: yup
     .string()
@@ -47,6 +47,14 @@ const validationSchema = yup.object({
     .test("passwords-match", "Passwords don't match", function (value) {
       return this.parent.password === value;
     }),
+  userurl: yup
+  .string()
+  .required()
+  .trim()
+  .lowercase()
+  .test("no whitespace", "no whitespace", function (value) {
+    value.includes(" ") ? false : true;
+  })
 });
 
 async function handleSubmit(url, data) {
@@ -76,14 +84,15 @@ const SignUpForm = (props) => {
           email: "",
           password: "",
           passwordConfirm: "",
+          userurl: ""
         }}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm }) => {
           setSubmitting(true);
           handleSubmit("https://bookface-auth.herokuapp.com/userauth/signup",data)
+          resetForm({});
           setSubmitting(false);
           props.handleClose()
-          resetForm({});
         }}
       >
         {({ isSubmitting }) => (
@@ -92,13 +101,13 @@ const SignUpForm = (props) => {
           <Form>
             <MyTextField
               placeholder="First Name.."
-              name="firstName"
+              name="first_name"
               type="input"
             />
             <div>
               <MyTextField
                 placeholder="Last Name.."
-                name="lastName"
+                name="last_name"
                 type="input"
               />
             </div>
@@ -117,6 +126,13 @@ const SignUpForm = (props) => {
                 placeholder="Confirm Password.."
                 name="passwordConfirm"
                 type="password"
+              />
+            </div>
+            <div>
+            <MyTextField
+                placeholder="Profile Url"
+                name="userurl"
+                type="input"
               />
             </div>
             <div>
