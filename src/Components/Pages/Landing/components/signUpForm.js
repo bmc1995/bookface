@@ -1,7 +1,14 @@
 import React from "react";
 
-import { TextField, Button, Box, makeStyles, Typography } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  Box,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 import { Formik, useField, Form } from "formik";
+import { useHistory } from "react-router-dom";
 import * as yup from "yup";
 
 const useStyles = makeStyles({
@@ -23,16 +30,17 @@ const MyTextField = ({ placeholder, type, ...props }) => {
     <TextField
       {...field}
       type={type}
-      placeholder={placeholder}
       helperText={errorText}
       error={!!errorText}
+      variant="outlined"
+      label={placeholder}
     />
   );
 };
 
 const validationSchema = yup.object({
-  firstName: yup.string().required().max(35),
-  lastName: yup.string().required().max(35),
+  first_name: yup.string().required().max(35),
+  last_name: yup.string().required().max(35),
   email: yup.string().required().email("Please enter a valid email"),
   password: yup
     .string()
@@ -41,20 +49,11 @@ const validationSchema = yup.object({
       /^[a-zA-Z0-9_\-]{4,}$/m,
       "Must be atleast 4 characters, alphanumeric."
     ),
-  passwordConfirm: yup
+  userurl: yup
     .string()
     .required()
-    .test("passwords-match", "Passwords don't match", function (value) {
-      return this.parent.password === value;
-    }),
-  userurl: yup
-  .string()
-  .required()
-  .trim()
-  .lowercase()
-  .test("no whitespace", "no whitespace", function (value) {
-    return value.includes(" ") ? false : true;
-  })
+    .lowercase()
+    .matches(/^[a-zA-Z_\-]{5,}$/m, "Must be atleast 5 characters, letters"),
 });
 
 async function handleSubmit(url, data) {
@@ -67,82 +66,90 @@ async function handleSubmit(url, data) {
     },
     body: JSON.stringify(data),
   });
-  response.json()
-  .then((data) => {
-    console.log(data)
-  })
+  response
+    .json()
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
-const SignUpForm = (props) => {
-  const classes = useStyles()
+const SignUpForm = () => {
+  const classes = useStyles();
   return (
     <Box className={classes.signInContainer}>
       <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
+          first_name: "",
+          last_name: "",
           email: "",
           password: "",
           passwordConfirm: "",
-          userurl: ""
+          userurl: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          handleSubmit("https://bookface-auth.herokuapp.com/userauth/signup",data)
-          resetForm({});
+          handleSubmit(
+            "https://bookface-auth.herokuapp.com/userauth/signup",
+            data
+          );
           setSubmitting(false);
-          props.handleClose()
+          resetForm();
         }}
       >
         {({ isSubmitting }) => (
           <Box>
-          <Typography variant="h6">Sign Up</Typography>
-          <Form>
-            <MyTextField
-              placeholder="First Name.."
-              name="first_name"
-              type="input"
-            />
+            <Typography variant="h6">Sign Up</Typography>
+            <Form>
             <div>
               <MyTextField
-                placeholder="Last Name.."
-                name="last_name"
-                type="input"
+                placeholder="First Name.."
+                name="first_name"
+                type="text"
               />
-            </div>
-            <div>
-              <MyTextField placeholder="E-mail.." name="email" type="email" />
-            </div>
-            <div>
-              <MyTextField
-                placeholder="Password.."
-                name="password"
-                type="password"
-              />
-            </div>
-            <div>
-              <MyTextField
-                placeholder="Confirm Password.."
-                name="passwordConfirm"
-                type="password"
-              />
-            </div>
-            <div>
-            <MyTextField
-                placeholder="Profile Url"
-                name="userurl"
-                type="input"
-              />
-            </div>
-            <div>
-              <Button disabled={isSubmitting} type="submit">
-                submit
-              </Button>
-            </div>
-            {/* <pre>{JSON.stringify(values, null, 2)}</pre>
+              </div>
+              <div>
+                <MyTextField
+                  placeholder="Last Name.."
+                  name="last_name"
+                  type="text"
+                />
+              </div>
+              <div>
+                <MyTextField placeholder="E-mail.." name="email" type="email" />
+              </div>
+              <div>
+                <MyTextField
+                  placeholder="Password.."
+                  name="password"
+                  type="password"
+                />
+              </div>
+              <div>
+                <MyTextField
+                  placeholder="Confirm Password.."
+                  name="passwordConfirm"
+                  type="password"
+                />
+              </div>
+              <div>
+                <MyTextField
+                  placeholder="Profile Url"
+                  name="userurl"
+                  type="text"
+                />
+              </div>
+              <div>
+                <Button disabled={isSubmitting} type="submit">
+                  submit
+                </Button>
+              </div>
+              {/* <pre>{JSON.stringify(values, null, 2)}</pre>
             <pre>{JSON.stringify(errors, null, 2)}</pre> */}
-          </Form>
+            </Form>
           </Box>
         )}
       </Formik>
