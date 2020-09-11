@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/bookface/static/css/main.66350d41.chunk.css",
-    "main.js": "/bookface/static/js/main.b63737e2.chunk.js",
-    "main.js.map": "/bookface/static/js/main.b63737e2.chunk.js.map",
+    "main.js": "/bookface/static/js/main.3ad4c287.chunk.js",
+    "main.js.map": "/bookface/static/js/main.3ad4c287.chunk.js.map",
     "runtime-main.js": "/bookface/static/js/runtime-main.31605173.js",
     "runtime-main.js.map": "/bookface/static/js/runtime-main.31605173.js.map",
     "static/js/2.a0d98a3e.chunk.js": "/bookface/static/js/2.a0d98a3e.chunk.js",
     "static/js/2.a0d98a3e.chunk.js.map": "/bookface/static/js/2.a0d98a3e.chunk.js.map",
     "index.html": "/bookface/index.html",
-    "precache-manifest.fd3868b37d8201b835faad56ed415ead.js": "/bookface/precache-manifest.fd3868b37d8201b835faad56ed415ead.js",
+    "precache-manifest.a8a4013d3c3ad23415da390616328c73.js": "/bookface/precache-manifest.a8a4013d3c3ad23415da390616328c73.js",
     "service-worker.js": "/bookface/service-worker.js",
     "static/css/main.66350d41.chunk.css.map": "/bookface/static/css/main.66350d41.chunk.css.map",
     "static/js/2.a0d98a3e.chunk.js.LICENSE.txt": "/bookface/static/js/2.a0d98a3e.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.31605173.js",
     "static/js/2.a0d98a3e.chunk.js",
     "static/css/main.66350d41.chunk.css",
-    "static/js/main.b63737e2.chunk.js"
+    "static/js/main.3ad4c287.chunk.js"
   ]
 }
