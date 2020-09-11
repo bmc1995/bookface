@@ -80,7 +80,7 @@ const SignUpForm = (props) => {
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting, resetForm }) => {
           setSubmitting(true);
-          handleSubmit("https://bookface-auth.herokuapp.com/userauth/signup")
+          handleSubmit("https://bookface-auth.herokuapp.com/userauth/signup",data)
           setSubmitting(false);
           props.handleClose()
           resetForm({});
