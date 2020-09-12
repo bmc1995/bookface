@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import {useHistory} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 import {
   Box,
   Card,
@@ -12,12 +12,12 @@ import {
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
-import { UserContext } from "../../UserContext";
-import { AccessContext } from "../../AccessContext";
+import { UserContext } from "../../Context/UserContext";
+import { AccessContext } from "../../Context/AccessContext";
 
 import CreateCommentDialog from "../shared/CreateCommentDialog";
 import CommentAccordion from "./CommentAccordion";
-
+//create css for this component
 const useStyles = makeStyles({
   postComponentStyles: {
     width: "95%",
@@ -43,8 +43,8 @@ const useStyles = makeStyles({
     margin: "0 1rem",
   },
   avatarContainer: {
-    cursor: "pointer"
-  }
+    cursor: "pointer",
+  },
 });
 
 const PostCard = (props) => {
@@ -54,16 +54,20 @@ const PostCard = (props) => {
   const classes = useStyles();
 
   const handleDelete = async (postId) => {
-    const response = await fetch(`https://bookymcbookface.herokuapp.com/posts/${postId}/${user._id}`, {
-      method: "DELETE",
-      mode: "cors",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
+    //define the fetch request (returns a Promise/Response) as 'response'
+    const response = await fetch(
+      `https://bookymcbookface.herokuapp.com/posts/${postId}/${user._id}`,
+      {
+        method: "DELETE",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    //call response, then, handle promise resolve/rejection
     response.json().then((res) => {
       props.setDeletedPosts((deletedPosts) => [...deletedPosts, res]);
       return console.log(res);
@@ -71,27 +75,30 @@ const PostCard = (props) => {
   };
 
   const handleLike = async (postId, userId) => {
-    const response = await fetch("https://bookymcbookface.herokuapp.com/likes", {
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        postId,
-        userId,
-      }),
-    });
-    //send req. after that push liked post to liked post arr so state triggers reload.
-    //--TODO add a way to get likes for each post
+    //define the fetch request (returns a Promise/Response) as 'response'
+    const response = await fetch(
+      "https://bookymcbookface.herokuapp.com/likes",
+      {
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          postId,
+          userId,
+        }),
+      }
+    );
+    //call response, then, handle promise resolve/rejection
     response.json().then((res) => {
       props.setLikes(res);
       console.log(res);
     });
   };
-
+  //if this is authenticated user's post, render delete button.
   const isAuthUsersPost = () => {
     if (user._id === props.postAuthorId) {
       return (
@@ -110,7 +117,10 @@ const PostCard = (props) => {
   return (
     <Card className={classes.postComponentStyles} elevation={5}>
       <Box className={classes.posterInfo}>
-        <Box onClick={() => history.push(`/profile/${props.postProfileUrl}`)} className={classes.avatarContainer}>
+        <Box
+          onClick={() => history.push(`/profile/${props.postProfileUrl}`)}
+          className={classes.avatarContainer}
+        >
           <Avatar
             className={classes.avatarSmall}
             src={props.profilePic}
@@ -143,7 +153,12 @@ const PostCard = (props) => {
           </IconButton>
           {isAuthUsersPost()}
         </Box>
-        <CommentAccordion postId={props.postId} token={accessToken} refreshInfo={props.refreshInfo} setRefreshInfo={props.setRefreshInfo} />
+        <CommentAccordion
+          postId={props.postId}
+          token={accessToken}
+          refreshInfo={props.refreshInfo}
+          setRefreshInfo={props.setRefreshInfo}
+        />
       </Box>
     </Card>
   );

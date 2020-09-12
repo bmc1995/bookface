@@ -1,15 +1,15 @@
 import React, { useEffect, useContext, useState } from "react";
 import { makeStyles, Grid, Typography } from "@material-ui/core";
 
-import { UserContext } from "../../../UserContext";
-import { AccessContext } from "../../../AccessContext";
+import { UserContext } from "../../../Context/UserContext";
+import { AccessContext } from "../../../Context/AccessContext";
 import UserIndexCard from "./components/UserIndexCard";
-
+//create css for this component
 const useStyles = makeStyles({
   UserIndexContainer: {},
 });
 
-const UserIndex = (props) => {
+const UserIndex = () => {
   const { user } = useContext(UserContext);
   const { accessToken } = useContext(AccessContext);
   const [users, setUsers] = useState([]);
@@ -18,21 +18,30 @@ const UserIndex = (props) => {
 
   useEffect(() => {
     const getAllUsers = async () => {
-      const response = await fetch("https://bookymcbookface.herokuapp.com/users", {
-        method: "GET",
-        mode: "cors",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      response.json().then((res) => {
-        console.log(res);
-        setUsers(res);
-      });
+      //define the fetch request (returns a Promise/Response) as 'response'
+      const response = await fetch(
+        "https://bookymcbookface.herokuapp.com/users",
+        {
+          method: "GET",
+          mode: "cors",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      //call response, then, handle promise resolve/rejection
+      response
+        .json()
+        .then((res) => {
+          setUsers(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     };
-
+    //Call getAllUsers() everytime useEffect is triggered
     getAllUsers();
   }, [accessToken, pageUpdates]);
 
@@ -45,7 +54,8 @@ const UserIndex = (props) => {
         container
         className={classes.UserIndexContainer}
       >
-        {users.map((selected, i) => {
+        {/* Create a card for every user that isn't the authenticated user */}
+        {users.map((selected) => {
           if (selected._id !== user._id) {
             return (
               <Grid item>
@@ -64,14 +74,12 @@ const UserIndex = (props) => {
                 />
               </Grid>
             );
-            
           }
-          return null
+          return null;
         })}
       </Grid>
     );
   }
-
   return (
     <Grid
       sm="12"

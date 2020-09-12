@@ -8,8 +8,8 @@ import Layout from "./Components/shared/Layout";
 import DashboardComponent from "./Components/Pages/Dashboard/dashboard";
 import ProfileComponent from "./Components/Pages/Profile/Profile";
 
-import { UserContext } from "./UserContext";
-import { AccessContext } from "./AccessContext";
+import { UserContext } from "./Context/UserContext";
+import { AccessContext } from "./Context/AccessContext";
 import { Typography } from "@material-ui/core";
 import UserIndex from "./Components/Pages/UserIndex/UserIndex";
 
@@ -17,8 +17,9 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
+//runs on component load or when there are changes to dependencies
   useEffect(() => {
+    //define the fetch request (returns a Promise/Response) as 'response'
     async function checkLoggedIn() {
       const response = await fetch("https://bookface-auth.herokuapp.com/userauth/curruser", {
         method: "POST",
@@ -28,6 +29,7 @@ const App = () => {
           "Content-Type": "application/json",
         },
       });
+      //call response, then, handle promise resolve/rejection
       response.json().then((data) => {
         let currUser = data.user;
         console.log(currUser);
@@ -39,7 +41,6 @@ const App = () => {
     if (!document.cookie.includes("loggedIn=true")) {
       setIsLoading(false);
     } else if (user == null) {
-      console.log(document.cookie.includes("loggedIn=true"));
       checkLoggedIn();
     }
   }, [user]);
@@ -51,6 +52,7 @@ const App = () => {
     <UserContext.Provider value={{ user, setUser }}>
       <AccessContext.Provider value={{ accessToken, setAccessToken }}>
         <Layout />
+        {/* both defined? */}
         {user && accessToken ? (
           <Switch>
             <Route
@@ -69,6 +71,7 @@ const App = () => {
             <Route path="*" render={() => <h1>404 Not Found</h1>} />
           </Switch>
         ) : (
+          //if not defined
           <Switch>
             <Route path="/" children={<AuthLanding />} />
             <Redirect to="/" />

@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import FriendButton from "../../../shared/friendButton";
 import { useHistory } from "react-router-dom";
-
+//create css for this component
 const useStyles = makeStyles({
   cardStyles: {
     height: "15rem",

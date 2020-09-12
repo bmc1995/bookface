@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   TextField,
@@ -23,6 +23,7 @@ const useStyles = makeStyles({
   },
 });
 
+//define MyTextField as a modified material-ui component to work with Formik *DRY
 const MyTextField = ({ placeholder, type, ...props }) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
@@ -38,6 +39,7 @@ const MyTextField = ({ placeholder, type, ...props }) => {
   );
 };
 
+//Give yup some guidelines to validate form inputs
 const validationSchema = yup.object({
   first_name: yup.string().required().max(35),
   last_name: yup.string().required().max(35),
@@ -54,30 +56,37 @@ const validationSchema = yup.object({
     .required()
     .lowercase()
     .matches(/^[a-zA-Z_\-]{5,}$/m, "Must be atleast 5 characters, letters"),
+  passwordConfirm: yup
+    .string()
+    .required()
+    .oneOf([yup.ref('password'), null], "Passwords must match")
 });
 
-async function handleSubmit(url, data) {
-  const response = await fetch(url, {
-    method: "POST",
-    mode: "cors",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-  response
-    .json()
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
 
-const SignUpForm = () => {
+const SignUpForm = (props) => {
   const classes = useStyles();
+    //define the fetch request (returns a Promise/Response) as 'response'
+  async function handleSubmit(url, data) {
+    const response = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+      //call response, then, handle promise resolve/rejection
+    response
+      .json()
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (
     <Box className={classes.signInContainer}>
       <Formik
@@ -96,8 +105,9 @@ const SignUpForm = () => {
             "https://bookface-auth.herokuapp.com/userauth/signup",
             data
           );
-          setSubmitting(false);
           resetForm();
+          setSubmitting(false);
+          props.handleDialogClose();
         }}
       >
         {({ isSubmitting }) => (
@@ -144,11 +154,9 @@ const SignUpForm = () => {
               </div>
               <div>
                 <Button disabled={isSubmitting} type="submit">
-                  submit
+                  Create Account
                 </Button>
               </div>
-              {/* <pre>{JSON.stringify(values, null, 2)}</pre>
-            <pre>{JSON.stringify(errors, null, 2)}</pre> */}
             </Form>
           </Box>
         )}

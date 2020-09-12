@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Container, Box, Paper, Typography } from "@material-ui/core";
-import { UserContext } from "../../../UserContext";
 import CreatePostDialog from "../../shared/CreatePostDialog";
 import DashTimeline from "../Dashboard/components/dashTimeline";
-import { AccessContext } from "../../../AccessContext";
+import { UserContext } from "../../../Context/UserContext";
+import { AccessContext } from "../../../Context/AccessContext";
 
 export default function DashboardComponent() {
   const { user } = useContext(UserContext);

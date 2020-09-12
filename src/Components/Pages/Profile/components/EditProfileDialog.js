@@ -1,7 +1,4 @@
 import React, { useContext, useState } from "react";
-
-// import { UserContext } from "../../../../UserContext";
-import { AccessContext } from "../../../../AccessContext";
 import {
   FormLabel,
   Button,
@@ -13,32 +10,8 @@ import {
   Divider,
 } from "@material-ui/core";
 
-async function handleSubmit(url, img, token, refresh) {
-  const imageData = new FormData();
-  imageData.append("img", img);
-
-  console.log(img);
-
-  const response = await fetch(url, {
-    method: "POST",
-    mode: "cors",
-    credentials: "include",
-    headers: {
-      // "Content-Type": "multipart/form-data"
-      Authorization: `Bearer ${token}`,
-    },
-    body: imageData,
-  });
-  response
-    .json()
-    .then((res) => {
-      console.log(res);
-      console.log("end handleSubmit");
-      refresh.setRefresh(refresh.refreshInfo + 1)
-    })
-    .catch((err) => console.log("Error", err));
-}
-
+import { AccessContext } from "../../../../Context/AccessContext";
+//create css for this component
 const useStyles = makeStyles({
   container: {
     display: "flex",
@@ -47,17 +20,40 @@ const useStyles = makeStyles({
   },
 });
 
+async function handleSubmit(url, img, token, refresh) {
+  //define imageData as FormData Object, append File (img) to imageData
+  const imageData = new FormData();
+  imageData.append("img", img);
+  //define the fetch request (returns a Promise/Response) as 'response'
+  const response = await fetch(url, {
+    method: "POST",
+    mode: "cors",
+    credentials: "include",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: imageData,
+  });
+  //call response, then, handle promise resolve/rejection
+  response
+    .json()
+    .then((res) => {
+      //TODO add image uploaded msg
+      console.log(res);
+      console.log("end handleSubmit");
+      //setState to reload components after deletion
+      refresh.setRefresh(refresh.refreshInfo + 1);
+    })
+    .catch((err) => console.log("Error", err));
+}
+
 const EditProfileDialog = (props) => {
   let [selection, setSelection] = useState();
   const { accessToken } = useContext(AccessContext);
-
   const classes = useStyles();
 
   const selectionChangeHandler = (image) => {
     setSelection(image);
-    console.log(image);
-    console.log("end selectionChangeHandler");
-    console.log(selection);
   };
 
   return (
@@ -80,12 +76,16 @@ const EditProfileDialog = (props) => {
           />
         </div>
         <Button
-          onClick={(e) => {
+          onClick={() => {
             handleSubmit(
               "https://bookymcbookface.herokuapp.com/upload/s3ImgUpload",
               selection,
               accessToken,
-              {setRefresh: props.setRefreshInfo, refreshInfo: props.refreshInfo}
+              //send both props inside an object to the 'refresh' parameter
+              {
+                setRefresh: props.setRefreshInfo,
+                refreshInfo: props.refreshInfo,
+              }
             );
             props.handleClose();
           }}
@@ -98,5 +98,3 @@ const EditProfileDialog = (props) => {
 };
 
 export default EditProfileDialog;
-
-// http://localhost:5000/upload/s3ImgUpload

@@ -3,6 +3,7 @@ import React from "react";
 import { Container, Paper, makeStyles, Divider, Box } from "@material-ui/core";
 import PostCard from "../../../shared/postCard";
 
+//create css for this component
 const useStyles = makeStyles({
   timelineContainer: {
     overflow: "auto",
@@ -19,6 +20,7 @@ const useStyles = makeStyles({
 });
 
 const DashTimeline = (props) => {
+  //postsArr is brought in with props from api call within dashboard component
   const postsArr = props.posts;
   const classes = useStyles();
 
@@ -40,13 +42,13 @@ const DashTimeline = (props) => {
                 lastName={post.author.last_name}
                 profilePic={post.author.profileImgUrl}
                 postAuthorId={post.author._id}
-                post={post.message}
-                setDeletedPosts={props.setDeletedPosts}
+                postProfileUrl={post.author.userurl}
                 postId={post._id}
+                post={post.message}
                 postLikes={post.likes}
                 postComments={post.comments}
+                setDeletedPosts={props.setDeletedPosts}
                 setLikes={props.setLikes}
-                postProfileUrl={post.author.userurl}
                 refreshInfo={props.refreshInfo}
                 setRefreshInfo={props.setRefreshInfo}
               />

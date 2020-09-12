@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import { Button, Typography } from "@material-ui/core";
 
-import { AccessContext } from "../../AccessContext";
+import { AccessContext } from "../../Context/AccessContext";
 
 const FriendButton = (props) => {
   const { accessToken } = useContext(AccessContext);
 
   const handleAddClick = async () => {
+    //define the fetch request (returns a Promise/Response) as 'response'
     const response = await fetch("https://bookymcbookface.herokuapp.com/users/sendFriendReq", {
       method: "POST",
       mode: "cors",
@@ -20,6 +21,7 @@ const FriendButton = (props) => {
         authUser: props.authUser,
       })
     })
+    //call response, then, handle promise resolve/rejection
     response.json()
     .then((res)=> {
       console.log(res);
@@ -31,6 +33,7 @@ const FriendButton = (props) => {
   };
 
   const handleAcceptClick = async () => {
+    //define the fetch request (returns a Promise/Response) as 'response'
     const response = await fetch("https://bookymcbookface.herokuapp.com/users/acceptFriendReq", {
       method: "POST",
       mode: "cors",
@@ -44,6 +47,7 @@ const FriendButton = (props) => {
         authUser: props.authUser,
       })
     })
+    //call response, then, handle promise resolve/rejection
     response.json()
     .then((res)=> {
       console.log(res);

@@ -10,14 +10,14 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../../UserContext";
-import { AccessContext } from "../../../AccessContext";
+import { UserContext } from "../../../Context/UserContext";
+import { AccessContext } from "../../../Context/AccessContext";
 
 const HeaderComponent = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const { user, setUser } = useContext(UserContext);
-  const { setAccessToken } = useContext(AccessContext)
+  const { setAccessToken } = useContext(AccessContext);
 
   const clickHandler = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,12 +28,13 @@ const HeaderComponent = () => {
   };
 
   const handleLogout = () => {
-    //remove loggedIn cookie then set accessToken and user to null
-    document.cookie = "loggedIn=true; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    setAccessToken(null)
-    setUser(null)
-    handleClose()
-  }
+    //remove loggedIn cookie then set user to null and expire accessToken
+    document.cookie =
+      "loggedIn=true; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    setAccessToken(null);
+    setUser(null);
+    handleClose();
+  };
 
   return (
     <AppBar position="static">
@@ -57,7 +58,6 @@ const HeaderComponent = () => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-
               <MenuItem
                 color="textPrimary"
                 component={Link}
@@ -82,14 +82,6 @@ const HeaderComponent = () => {
                 onClick={handleClose}
               >
                 My Profile
-              </MenuItem>
-              <MenuItem
-                color="textPrimary"
-                component={Link}
-                to={`/profile/${user.first_name}${user.last_name}/edit`}
-                onClick={handleClose}
-              >
-                Edit Profile
               </MenuItem>
               <MenuItem
                 color="textPrimary"

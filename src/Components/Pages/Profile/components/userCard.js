@@ -14,7 +14,7 @@ import RoomIcon from "@material-ui/icons/Room";
 import CakeIcon from "@material-ui/icons/Cake";
 import FriendButton from "../../../shared/friendButton";
 import EditProfileDialog from "./EditProfileDialog";
-
+//create css for this component
 const useStyles = makeStyles({
   userCard: {
     marginTop: "1rem",

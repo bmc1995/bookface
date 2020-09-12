@@ -8,7 +8,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import PostCard from "./postCard";
-
+//create css for this component
 const useStyles = makeStyles({
   timelineContainer: {
     overflow: "auto",
@@ -59,7 +59,7 @@ const Timeline = (props) => {
               refreshInfo={props.refreshInfo}
               setRefreshInfo={props.setRefreshInfo}
             />
-            
+            //reverse the array so the posts are ordered most recent from top to bottom
           )).reverse()}
         </Box>
       </Paper>
